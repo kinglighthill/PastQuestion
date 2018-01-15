@@ -1,13 +1,9 @@
 package com.kca.www.pastquestion;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +44,6 @@ public class FirstSemesterFragment extends Fragment {
         FirstSemesterFragment firstSemesterFragment = new FirstSemesterFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("page",position);
-        //bundle.putString("title",title);
         firstSemesterFragment.setArguments(bundle);
         return firstSemesterFragment;
     }

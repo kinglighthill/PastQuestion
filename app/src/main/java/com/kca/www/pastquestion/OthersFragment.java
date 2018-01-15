@@ -1,21 +1,16 @@
 package com.kca.www.pastquestion;
 
 import android.animation.Animator;
-import android.animation.LayoutTransition;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -25,17 +20,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
-import static android.R.attr.button;
-import static android.R.attr.theme;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
-//import static com.kca.www.pastquestion.R.id.spinner;
-
 
 public class OthersFragment extends Fragment {
 
@@ -336,7 +323,7 @@ public class OthersFragment extends Fragment {
         }
     };
 
-    public void animate(ViewGroup layout, boolean animateOut) {
+    /*public void animate(ViewGroup layout, boolean animateOut) {
         Animator animator;
         Animation slide_in;
         Animation slide_out;
@@ -348,7 +335,7 @@ public class OthersFragment extends Fragment {
             slide_in = AnimationUtils.loadAnimation(getActivity(), R.anim.sliding_in);
             layout.startAnimation(slide_in);
         }
-    }
+    }*/
 
     public void getSelectedGrades() {
         for (int i = 0; i < switchStates.length; i++) {

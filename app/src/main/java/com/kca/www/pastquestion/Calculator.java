@@ -2,23 +2,10 @@ package com.kca.www.pastquestion;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.util.Log;
 
-import org.w3c.dom.Document;
-
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import static android.R.attr.id;
-import static com.kca.www.pastquestion.R.id.grade;
 
 /**
  * Created by KCA on 12/25/2017.
