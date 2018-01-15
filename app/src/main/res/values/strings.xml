@@ -1,0 +1,71 @@
+<resources>
+    <string name="app_name">Past Question</string>
+    <string name="title_activity_gpcalc">GPCalc</string>
+    <string name="title_activity_cbtgme">CBTGame</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="question">Question %1$d of %2$d</string>
+    <string name="reset_quiz">Reset Quiz</string>
+    <string name="guess_answer">Guess the Correct Answer</string>
+    <string name="results">%1$d guesses, %2$.02f%% correct</string>
+    <string name="incorrect_answer">Incorrect!</string>
+    <string name="title_activity_gpcalc_settings">Settings</string>
+
+    <string-array name="grades_array">
+        <item> A </item>
+        <item> B </item>
+        <item> C </item>
+        <item> D </item>
+        <item> E </item>
+        <item> F </item>
+    </string-array>
+
+    <string-array name="values_array">
+        <item> 5.0 </item>
+        <item> 4.0 </item>
+        <item> 3.0 </item>
+        <item> 2.0 </item>
+        <item> 1.0 </item>
+        <item> 0.0 </item>
+    </string-array>
+
+    <string-array name="grade_array">
+        <item> Select </item>
+    </string-array>
+
+    <string-array name="credits_array">
+        <item> Select </item>
+        <item> 1 </item>
+        <item> 2 </item>
+        <item> 3 </item>
+        <item> 4 </item>
+        <item> 5 </item>
+        <item> 6 </item>
+        <item> 7 </item>
+        <item> 8 </item>
+        <item> 9 </item>
+        <item> 10 </item>
+        <item> 11 </item>
+        <item> 12 </item>
+        <item> 13 </item>
+        <item> 14 </item>
+        <item> 15 </item>
+        <item> 16 </item>
+        <item> 17 </item>
+        <item> 18 </item>
+        <item> 19 </item>
+        <item> 20 </item>
+    </string-array>
+    
+    <string-array name="courses_array1">
+        <item> Select </item>
+        <item> FRN 101 </item>
+        <item> IGB 101 </item>
+    </string-array>
+
+    <string-array name="courses_array2">
+        <item> Select </item>
+        <item> FRN 102 </item>
+        <item> IGB 102 </item>
+    </string-array>
+</resources>
