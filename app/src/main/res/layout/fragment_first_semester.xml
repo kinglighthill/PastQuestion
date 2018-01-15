@@ -1,0 +1,141 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/first_semester"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/margin"
+    android:paddingLeft="@dimen/margin" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cgpa_label"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0.00"
+                android:textColor="@color/red"
+                android:textSize="20sp"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/gpa_label"
+                android:layout_weight="4"
+                android:gravity="right"
+                android:text="0.00"
+                android:textColor="@color/darkBlue"
+                android:textSize="50sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:id="@+id/cummulative_gpa_label"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:text="CGPA"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:id="@+id/current_gpa_label"
+                android:layout_weight="4"
+                android:gravity="right"
+                android:layout_gravity="center"
+                android:text="Current GPA"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:background="@drawable/border" >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="Course"
+            android:textColor="@color/purple"/>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="Credits"
+            android:textColor="@color/purple"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="Grade"
+            android:textColor="@color/purple"  />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/courses_linear_layout" >
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/save_button1"
+                    android:text="Save"
+                    android:onClick="save1"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="64dp"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_button1"
+                    android:text="Edit"
+                    android:onClick="edit1"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="64dp"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>
