@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/grade_view"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:divider="@color/darkBlue" >
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:id="@+id/course_layout"
+        android:layout_weight="3"
+        android:background="@drawable/border">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/course_button"
+            android:text="Select"
+            android:textAllCaps="false"
+            android:textStyle="normal"
+            android:padding="@dimen/margin"
+            android:background="@drawable/border" />
+    </LinearLayout>
+
+    <Spinner
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:id="@+id/credits_spinner"
+        android:layout_weight="3"
+        android:entries="@array/credits_array"
+        android:textAlignment="center"
+        android:dropDownSelector="@color/transparent"
+        android:padding="@dimen/margin"
+        android:background="@drawable/border" />
+
+    <Spinner
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:id="@+id/grade_spinner"
+        android:layout_weight="3"
+        android:entries="@array/grade_array"
+        android:textAlignment="center"
+        android:dropDownSelector="@color/transparent"
+        android:padding="@dimen/margin"
+        android:background="@drawable/border" />
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:id="@+id/remove"
+        android:layout_weight="1"
+        android:onClick="remove"
+        android:background="@drawable/border"
+        android:foreground="@drawable/ic_close"
+        android:padding="@dimen/margin" />
+
+</LinearLayout>
