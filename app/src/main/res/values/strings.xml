@@ -11,6 +11,28 @@
     <string name="incorrect_answer">Incorrect!</string>
     <string name="title_activity_gpcalc_settings">Settings</string>
 
+    <string name="about_us">
+    FUTO E-Learning App (Harmattan) is an excellent Computer Based Testing and Learning Application that enables first year students of the Federal University of Technology, Owerri prepare for their first semester exams.
+    \n With over 2000 past questions varying across nine courses, detailed solutions and concise lecture notes, you will be able to learn differently and pass excellently.
+    \n This is FUTO E-learning App (Harmattan) and it has all you need to standout.
+    </string>
+
+    <string name="contact">
+        Developed by \n The FUTO E-learning App Team \n &#169; 2018. All Rights Reserved. \n Tel: 08164177129 (Uche) OR 07036076879 (Kingsley)
+        \n Email: urchboy995@gmail.com OR kingtest@ieee.org
+    </string>
+
+    <string name="title1">SALES POINTS</string>
+    <string name="title2">ADDRESS</string>
+    <string name="cell1">BJ (OKBOL) SERVICES</string>
+    <string name="cell2">Business Complex Area, Old Registry, FUTO</string>
+    <string name="cell3">NFCS SECRETARIAT</string>
+    <string name="cell4">St. Thomas Aquinas Catholic Chaplaincy, FUTO</string>
+    <string name="cell5">SAMUEL ELECTRICALS</string>
+    <string name="cell6">Old Registry Beside BJ Services, FUTO</string>
+    <string name="cell7">GO-ZEE STATIONERY STORE</string>
+    <string name="cell8">IPWEB Plaza, Eziobodo, FUTO Road</string>
+
     <string-array name="grades_array">
         <item> A </item>
         <item> B </item>
@@ -56,7 +78,7 @@
         <item> 19 </item>
         <item> 20 </item>
     </string-array>
-    
+
     <string-array name="courses_array1">
         <item> Select </item>
         <item> FRN 101 </item>
@@ -67,5 +89,36 @@
         <item> Select </item>
         <item> FRN 102 </item>
         <item> IGB 102 </item>
+    </string-array>
+
+    <string-array name="credits1">
+        <item> 2 </item>
+        <item> 1 </item>
+        <item> 4 </item>
+        <item> 4 </item>
+        <item> 4 </item>
+        <item> 3 </item>
+        <item> 1 </item>
+        <item> 1 </item>
+    </string-array>
+
+    <string-array name="courses1">
+        <item> GST 101 </item>
+        <item> GST 103 </item>
+        <item> MTH 101 </item>
+        <item> PHY 101 "</item>
+        <item> CHM 101 </item>
+        <item> BIO 101 </item>
+        <item> ENG 101 </item>
+        <item> ENG 103 </item>
+    </string-array>
+
+    <string-array name="switches">
+        <item> switch1 </item>
+        <item> switch2 </item>
+        <item> switch3 </item>
+        <item> switch4 </item>
+        <item> switch5 </item>
+        <item> switch6 </item>
     </string-array>
 </resources>

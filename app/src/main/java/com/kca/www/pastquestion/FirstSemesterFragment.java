@@ -3,7 +3,9 @@ package com.kca.www.pastquestion;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import static android.R.attr.button;
+import static android.R.attr.factor;
+import static com.kca.www.pastquestion.R.id.container;
+import static com.kca.www.pastquestion.R.id.spinner;
+
 /**
  * Created by KCA on 12/21/2017.
  */
@@ -27,13 +34,15 @@ public class FirstSemesterFragment extends Fragment {
     private ViewGroup coursesLayout;
     private LinearLayout gradeLayout;
     private static ArrayList<Spinner> spinnerArrayList = new ArrayList<>();
+    private ArrayList<Spinner> creditSpinnerArray = new ArrayList<>();
     private ArrayList<String> gradeSpinnerArray = new ArrayList<>();
-    private String[] courseCodes = {"GST 101", "GST 103", "MTH 101", "PHY 101", "CHM 101", "BIO 101", "ENG 101", "ENG 103"};
-    private String[] switchNames = {"switch1","switch2","switch3","switch4","switch5","switch6"};
-    private boolean switchStates[] = new boolean[6];
     private boolean isSaved;
-    private int[] credits = {2, 1, 4, 4, 4, 3, 1, 1};
+    private String[] temp_credits;
     private SharedPreferences sharedPreferences;
+    private int[] credits = new int[8];
+    private String[] courseCodes = new String[8];
+    private String[] switchNames = new String[6];
+    private boolean switchStates[] = new boolean[6];
     private TextView gpaTextView;
     public static TextView cgpaTextView;
     private static Button savedButton;
@@ -49,16 +58,28 @@ public class FirstSemesterFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        temp_credits = getResources().getStringArray(R.array.credits1);
+        for (int i = 0; i < temp_credits.length; i++) {
+            credits[i] = Integer.parseInt(temp_credits[i]);
+        }
+        courseCodes = getResources().getStringArray(R.array.courses1);
+        switchNames = getResources().getStringArray(R.array.switches);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d("TAG", "createView");
         sharedPreferences = getActivity().getSharedPreferences(getActivity().getApplication().getPackageName(),
-                            Context.MODE_PRIVATE);
+                Context.MODE_PRIVATE);
         isSaved = sharedPreferences.getBoolean("isSaved1",false);
+        rootView = inflater.inflate(R.layout.fragment_first_semester, container, false);
         spinnerArrayList.clear();
         calculator = Calculator.getInstance();
         calculator.setUp(getActivity(),0);
-        rootView = inflater.inflate(R.layout.fragment_first_semester, container, false);
-        coursesLayout = rootView.findViewById(R.id.courses_linear_layout);
+        coursesLayout = (LinearLayout)rootView.findViewById(R.id.courses_linear_layout);
         gpaTextView = rootView.findViewById(R.id.gpa_label);
         gpaTextView.setText("0.00");
         cgpaTextView = rootView.findViewById(R.id.cgpa_label);
@@ -67,7 +88,7 @@ public class FirstSemesterFragment extends Fragment {
         editButton = rootView.findViewById(R.id.edit_button1);
         initialiseGradeSpinnerArray();
         for (int i = 0; i < courseCodes.length; i++) {
-            gradeView = inflater.inflate(R.layout.grade_view,container,false);
+            gradeView = LayoutInflater.from(getContext()).inflate(R.layout.grade_view,coursesLayout,false);
             gradeLayout = gradeView.findViewById(R.id.grade_view);
             Button removeButton = gradeView.findViewById(R.id.remove);
             gradeLayout.removeView(removeButton);
@@ -76,6 +97,8 @@ public class FirstSemesterFragment extends Fragment {
             final Spinner creditSpinner = gradeLayout.findViewById(R.id.credits_spinner);
             creditSpinner.setSelection(credits[i]);
             creditSpinner.setEnabled(false);
+            creditSpinner.setId(i);
+            creditSpinnerArray.add(creditSpinner);
             getSelectedGrades();
             Spinner gradeSpinner = gradeLayout.findViewById(R.id.grade_spinner);
             ArrayAdapter<String> gradeSpinnerAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, gradeSpinnerArray);
@@ -108,6 +131,7 @@ public class FirstSemesterFragment extends Fragment {
 
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {
+
                 }
             });
             coursesLayout.addView(gradeLayout);
@@ -118,7 +142,7 @@ public class FirstSemesterFragment extends Fragment {
 
     private void addExtraCourse(){
         gradeView = LayoutInflater.from(getContext()).inflate(R.layout.grade_view, coursesLayout, false);
-        coursesLayout = rootView.findViewById(R.id.courses_linear_layout);
+        coursesLayout = (LinearLayout)rootView.findViewById(R.id.courses_linear_layout);
         gradeLayout = gradeView.findViewById(R.id.grade_view);
         Button removeButton = gradeView.findViewById(R.id.remove);
         gradeLayout.removeView(removeButton);
@@ -126,7 +150,7 @@ public class FirstSemesterFragment extends Fragment {
         creditSpinner.setSelection(1);
         creditSpinner.setEnabled(false);
         View spinnerView = LayoutInflater.from(getContext()).inflate(R.layout.course1_spinner_view, coursesLayout, false);
-        final Spinner courseSpinner = spinnerView.findViewById(R.id.spinner);
+        final Spinner courseSpinner = spinnerView.findViewById(spinner);
         LinearLayout courseLayout = gradeLayout.findViewById(R.id.course_layout);
         final Button courseButton = courseLayout.findViewById(R.id.course_button);
         courseLayout.removeView(courseButton);
@@ -134,7 +158,7 @@ public class FirstSemesterFragment extends Fragment {
         getSelectedGrades();
         final Spinner gradeSpinner = gradeLayout.findViewById(R.id.grade_spinner);
         ArrayAdapter<String> gradeSpinnerAdapter = new ArrayAdapter<>(getContext(),
-                                                    R.layout.spinner_item, gradeSpinnerArray);
+                R.layout.spinner_item, gradeSpinnerArray);
         gradeSpinner.setAdapter(gradeSpinnerAdapter);
         spinnerArrayList.add(gradeSpinner);
         spinnerArrayList.add(courseSpinner);
