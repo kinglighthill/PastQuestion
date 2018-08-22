@@ -34,7 +34,6 @@ public class FirstSemesterFragment extends Fragment {
     private ViewGroup coursesLayout;
     private LinearLayout gradeLayout;
     private static ArrayList<Spinner> spinnerArrayList = new ArrayList<>();
-    private ArrayList<Spinner> creditSpinnerArray = new ArrayList<>();
     private ArrayList<String> gradeSpinnerArray = new ArrayList<>();
     private boolean isSaved;
     private String[] temp_credits;
@@ -98,14 +97,14 @@ public class FirstSemesterFragment extends Fragment {
             creditSpinner.setSelection(credits[i]);
             creditSpinner.setEnabled(false);
             creditSpinner.setId(i);
-            creditSpinnerArray.add(creditSpinner);
             getSelectedGrades();
             Spinner gradeSpinner = gradeLayout.findViewById(R.id.grade_spinner);
+            gradeSpinner.setId(i);
             ArrayAdapter<String> gradeSpinnerAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, gradeSpinnerArray);
             gradeSpinner.setAdapter(gradeSpinnerAdapter);
             spinnerArrayList.add(gradeSpinner);
             if(isSaved) {
-                gradeSpinner.setSelection(sharedPreferences.getInt(String.valueOf(i)+String.valueOf(1), 0));
+                gradeSpinner.setSelection(sharedPreferences.getInt(String.valueOf(gradeSpinner.getId())+String.valueOf(1), 0));
                 gradeSpinner.setEnabled(false);
                 savedButton.setEnabled(false);
                 editButton.setEnabled(true);
@@ -135,9 +134,26 @@ public class FirstSemesterFragment extends Fragment {
                 }
             });
             coursesLayout.addView(gradeLayout);
+            gradeLayout.setTranslationY(coursesLayout.getHeight()+1000);
+            gradeLayout.animate().translationYBy(-(coursesLayout.getHeight()+1000)).setDuration(
+                    (long) ((coursesLayout.getHeight()+1000)*1.2)+ (i*100));
         }
         addExtraCourse();
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            Log.d("TAG","Charles");
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("key", 4);
+        super.onSaveInstanceState(outState);
     }
 
     private void addExtraCourse(){
@@ -150,7 +166,7 @@ public class FirstSemesterFragment extends Fragment {
         creditSpinner.setSelection(1);
         creditSpinner.setEnabled(false);
         View spinnerView = LayoutInflater.from(getContext()).inflate(R.layout.course1_spinner_view, coursesLayout, false);
-        final Spinner courseSpinner = spinnerView.findViewById(spinner);
+        final Spinner courseSpinner = spinnerView.findViewById(R.id.spinner);
         LinearLayout courseLayout = gradeLayout.findViewById(R.id.course_layout);
         final Button courseButton = courseLayout.findViewById(R.id.course_button);
         courseLayout.removeView(courseButton);
@@ -160,13 +176,11 @@ public class FirstSemesterFragment extends Fragment {
         ArrayAdapter<String> gradeSpinnerAdapter = new ArrayAdapter<>(getContext(),
                 R.layout.spinner_item, gradeSpinnerArray);
         gradeSpinner.setAdapter(gradeSpinnerAdapter);
-        spinnerArrayList.add(gradeSpinner);
-        spinnerArrayList.add(courseSpinner);
         if(isSaved) {
-            gradeSpinner.setSelection(sharedPreferences.getInt(String.valueOf(8)+String.valueOf(1), 0));
+            gradeSpinner.setSelection(sharedPreferences.getInt(String.valueOf(gradeSpinner.getId())+String.valueOf(1), 0));
             gradeSpinner.setEnabled(false);
-            courseSpinner.setSelection(sharedPreferences.getInt(String.valueOf(9)+String.valueOf(1), 0));
-            gradeSpinner.setEnabled(false);
+            courseSpinner.setSelection(sharedPreferences.getInt(String.valueOf(courseSpinner.getId())+String.valueOf(1), 0));
+            courseSpinner.setEnabled(false);
         }
         gradeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -216,7 +230,12 @@ public class FirstSemesterFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView){}
         });
+        spinnerArrayList.add(gradeSpinner);
+        spinnerArrayList.add(courseSpinner);
         coursesLayout.addView(gradeLayout);
+        gradeLayout.setTranslationY(coursesLayout.getHeight()+1000);
+        gradeLayout.animate().translationYBy(-(coursesLayout.getHeight()+1000)).setDuration(
+                (long) ((coursesLayout.getHeight()+1000)*1.2)+(800));
     }
 
     public void getSelectedGrades() {

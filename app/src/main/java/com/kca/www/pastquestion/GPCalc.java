@@ -88,18 +88,12 @@ public class GPCalc extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void remove(View view) {
-        LinearLayout coursesLayout = (LinearLayout) view.getParent().getParent();
-        LinearLayout gradeLayout = (LinearLayout) view.getParent();
-        coursesLayout.removeView(gradeLayout);
-    }
-
     public void save1(View view) {
         if (!isSaved1) {
             ArrayList<Spinner> spinnerArrayList = FirstSemesterFragment.getSpinnerArrayList();
             for (int i = 0; i < spinnerArrayList.size(); i++) {
                 spinnerArrayList.get(i).setEnabled(false);
-                sharedPreferences.edit().putInt(String.valueOf(i)+String.valueOf(1),
+                sharedPreferences.edit().putInt(String.valueOf(spinnerArrayList.get(i).getId())+String.valueOf(1),
                         spinnerArrayList.get(i).getSelectedItemPosition()).apply();
             }
         }
@@ -116,8 +110,22 @@ public class GPCalc extends AppCompatActivity {
             ArrayList<Spinner> spinnerArrayList = SecondSemesterFragment.getSpinnerArrayList();
             for (int i = 0; i < spinnerArrayList.size(); i++) {
                 spinnerArrayList.get(i).setEnabled(false);
-                sharedPreferences.edit().putInt(String.valueOf(i)+String.valueOf(2),
-                        spinnerArrayList.get(i).getSelectedItemPosition()).apply();
+                if (i == 1) {
+                    sharedPreferences.edit().putInt(String.valueOf("credit_spinner")+String.valueOf(2),
+                            spinnerArrayList.get(i).getSelectedItemPosition()).apply();
+                }
+                else if (i == 8) {
+                    sharedPreferences.edit().putInt("grade_spinner1",
+                            spinnerArrayList.get(i).getSelectedItemPosition()).apply();
+                }
+                else if (i == 10) {
+                    sharedPreferences.edit().putInt("grade_spinner2",
+                            spinnerArrayList.get(i).getSelectedItemPosition()).apply();
+                }
+                else {
+                    sharedPreferences.edit().putInt(String.valueOf(spinnerArrayList.get(i).getId())+String.valueOf(2),
+                            spinnerArrayList.get(i).getSelectedItemPosition()).apply();
+                }
             }
         }
         isSaved2 = true;

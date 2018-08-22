@@ -1,10 +1,10 @@
 package com.kca.www.pastquestion;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -12,8 +12,6 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -33,7 +31,7 @@ public class OthersFragment extends Fragment {
     ArrayList<String> gradeSpinnerArray = new ArrayList<>();
     String[] switchNames = {"switch1","switch2","switch3","switch4","switch5","switch6"};
     private boolean switchStates[] = new boolean[6] ;
-    private int _id = 0;
+    private int _id;
     SharedPreferences sharedPreferences;
     public static TextView gpaTextView;
     private Calculator calculator;
@@ -51,6 +49,7 @@ public class OthersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        _id = 0;
         calculator = Calculator.getInstance();
         innerCalculator = calculator.getInnerCalculator(getActivity());
         rootView = inflater.inflate(R.layout.fragment_others, container, false);
@@ -66,6 +65,7 @@ public class OthersFragment extends Fragment {
         getSelectedGrades();
         final Spinner gradeSpinner = gradeLayout.findViewById(R.id.grade_spinner);
         final Button courseButton = gradeLayout.findViewById(R.id.course_button);
+        courseButton.setId(_id);
         courseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,7 +74,8 @@ public class OthersFragment extends Fragment {
                                                     LinearLayout.LayoutParams.WRAP_CONTENT);
                 params.setMargins((int)(20 * Resources.getSystem().getDisplayMetrics().density),
                                     (int)(20 * Resources.getSystem().getDisplayMetrics().density), 0, 0);
-                View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_view, null, false);
+                View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_view, null,
+                        false);
                 final EditText editText = dialogView.findViewById(R.id.dialog_view_editText);
                 editText.setHint("Enter Course Code");
                 editText.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -89,7 +90,8 @@ public class OthersFragment extends Fragment {
                             dialog.dismiss();
                             if (!(creditSpinner.getSelectedItem().toString().equals("Select")
                                     || gradeSpinner.getSelectedItem().toString().equals("Select"))) {
-                                String id = courseButton.getText().toString();
+                                //String id = courseButton.getText().toString();
+                                String id = String.valueOf(courseButton.getId());
                                 String item = gradeSpinner.getSelectedItem().toString();
                                 Double credit = Double.parseDouble(creditSpinner.getSelectedItem().toString());
                                 innerCalculator.setGrades(item, credit, id);
@@ -121,7 +123,8 @@ public class OthersFragment extends Fragment {
                 Button button = linearLayout.findViewById(R.id.course_button);
                 if(!(courseButton.getText().toString().equals("Select")
                         || creditSpinner.getSelectedItem().toString().equals("Select"))) {
-                    String id = button.getText().toString();
+                    //String id = button.getText().toString();
+                    String id = String.valueOf(courseButton.getId());
                     String item = adapterView.getItemAtPosition(i).toString();
                     Double credit = Double.parseDouble(creditSpinner.getSelectedItem().toString());
                     innerCalculator.setGrades(item, credit, id);
@@ -130,7 +133,8 @@ public class OthersFragment extends Fragment {
                 }
                 else {
                     if (gradeSpinner.getSelectedItem().toString().equals("Select")) {
-                        String id = button.getText().toString();
+                        //String id = button.getText().toString();
+                        String id = String.valueOf(courseButton.getId());
                         String item = gradeSpinner.getSelectedItem().toString();
                         innerCalculator.setGrades(item, 1, id);
                         innerCalculator.calculateGPA();
@@ -148,7 +152,8 @@ public class OthersFragment extends Fragment {
                 if (!(creditSpinner.getSelectedItem().toString().equals("Select")
                         || gradeSpinner.getSelectedItem().toString().equals("Select")
                         || courseButton.getText().toString().equals("Select"))) {
-                    String id =courseButton.getText().toString();
+                    //String id =courseButton.getText().toString();
+                    String id = String.valueOf(courseButton.getId());
                     String item = gradeSpinner.getSelectedItem().toString();
                     Double credit = Double.parseDouble(creditSpinner.getSelectedItem().toString());
                     innerCalculator.setGrades(item, credit, id);
@@ -157,7 +162,8 @@ public class OthersFragment extends Fragment {
                 }
                 else {
                     if (creditSpinner.getSelectedItem().toString().equals("Select")) {
-                        String id = courseButton.getText().toString();
+                        //String id = courseButton.getText().toString();
+                        String id = String.valueOf(courseButton.getId());
                         innerCalculator.setGrades("Select", 1, id);
                         innerCalculator.calculateGPA();
                         gpaTextView.setText(String.format("%.2f",innerCalculator.getGpa()));
@@ -175,19 +181,26 @@ public class OthersFragment extends Fragment {
                 if (!(creditSpinner.getSelectedItem().toString().equals("Select")
                         || gradeSpinner.getSelectedItem().toString().equals("Select")
                         || courseButton.getText().toString().equals("Select"))) {
-                    String id = courseButton.getText().toString();
+                    //String id = courseButton.getText().toString();
+                    String id = String.valueOf(courseButton.getId());
                     innerCalculator.setGrades("Select", 1, id);
                     innerCalculator.calculateGPA();
                     gpaTextView.setText(String.format("%.2f",innerCalculator.getGpa()));
                 }
                 LinearLayout coursesLayout = (LinearLayout) view.getParent().getParent();
                 LinearLayout gradeLayout = (LinearLayout) view.getParent();
-                coursesLayout.removeView(gradeLayout);
+                gradeLayout.animate().translationXBy(coursesLayout.getWidth()).
+                        setDuration((long)(coursesLayout.getWidth()*1.2));
+                new Handler().postDelayed(new AnimationRunnable(coursesLayout, gradeLayout),
+                        (long) (coursesLayout.getWidth()*1.2));
             }
         });
         coursesLayout.addView(gradeLayout);
+        gradeLayout.setTranslationX(-coursesLayout.getWidth());
+        gradeLayout.animate().translationXBy(coursesLayout.getWidth()).setDuration((long) (coursesLayout.getWidth()*1.2));
         FloatingActionButton floatingActionButton = rootView.findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(fabListener);
+        _id++;
         return rootView;
     }
 
@@ -209,7 +222,8 @@ public class OthersFragment extends Fragment {
                             LinearLayout.LayoutParams.WRAP_CONTENT);
                     params.setMargins((int)(20 * Resources.getSystem().getDisplayMetrics().density),
                             (int)(20 * Resources.getSystem().getDisplayMetrics().density), 0, 0);
-                    View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_view, null, false);
+                    View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_view, null,
+                            false);
                     final EditText editText = dialogView.findViewById(R.id.dialog_view_editText);
                     editText.setHint("Enter Course Code");
                     editText.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -224,7 +238,8 @@ public class OthersFragment extends Fragment {
                                 dialog.dismiss();
                                 if (!(creditSpinner.getSelectedItem().toString().equals("Select")
                                         || gradeSpinner.getSelectedItem().toString().equals("Select"))) {
-                                    String id = courseButton.getText().toString() + String.valueOf(courseButton.getId());
+                                    //String id = courseButton.getText().toString() + String.valueOf(courseButton.getId());
+                                    String id = String.valueOf(courseButton.getId());
                                     String item = gradeSpinner.getSelectedItem().toString();
                                     Double credit = Double.parseDouble(creditSpinner.getSelectedItem().toString());
                                     innerCalculator.setGrades(item, credit, id);
@@ -254,7 +269,8 @@ public class OthersFragment extends Fragment {
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     if(!(courseButton.getText().toString().equals("Select")
                             || creditSpinner.getSelectedItem().toString().equals("Select"))) {
-                        String id = courseButton.getText().toString() + String.valueOf(courseButton.getId());
+                        //String id = courseButton.getText().toString() + String.valueOf(courseButton.getId());
+                        String id = String.valueOf(courseButton.getId());
                         String item = adapterView.getItemAtPosition(i).toString();
                         Double credit = Double.parseDouble(creditSpinner.getSelectedItem().toString());
                         innerCalculator.setGrades(item, credit, id);
@@ -263,7 +279,8 @@ public class OthersFragment extends Fragment {
                     }
                     else {
                         if (gradeSpinner.getSelectedItem().toString().equals("Select")) {
-                            String id = courseButton.getText().toString() + String.valueOf(courseButton.getId());
+                            //String id = courseButton.getText().toString() + String.valueOf(courseButton.getId());
+                            String id = String.valueOf(courseButton.getId());
                             String item = gradeSpinner.getSelectedItem().toString();
                             innerCalculator.setGrades(item, 1, id);
                             innerCalculator.calculateGPA();
@@ -281,7 +298,8 @@ public class OthersFragment extends Fragment {
                     if (!(creditSpinner.getSelectedItem().toString().equals("Select")
                             || gradeSpinner.getSelectedItem().toString().equals("Select")
                             || courseButton.getText().toString().equals("Select"))) {
-                        String id = courseButton.getText().toString() + String.valueOf(courseButton.getId());
+                        //String id = courseButton.getText().toString() + String.valueOf(courseButton.getId());
+                        String id = String.valueOf(courseButton.getId());
                         String item = gradeSpinner.getSelectedItem().toString();
                         Double credit = Double.parseDouble(creditSpinner.getSelectedItem().toString());
                         innerCalculator.setGrades(item, credit, id);
@@ -290,7 +308,8 @@ public class OthersFragment extends Fragment {
                     }
                     else {
                         if (creditSpinner.getSelectedItem().toString().equals("Select")) {
-                            String id = courseButton.getText().toString() + String.valueOf(courseButton.getId());
+                            //String id = courseButton.getText().toString() + String.valueOf(courseButton.getId());
+                            String id = String.valueOf(courseButton.getId());
                             innerCalculator.setGrades("Select", 1, id);
                             innerCalculator.calculateGPA();
                             gpaTextView.setText(String.format("%.2f",innerCalculator.getGpa()));
@@ -308,34 +327,41 @@ public class OthersFragment extends Fragment {
                     if (!(creditSpinner.getSelectedItem().toString().equals("Select")
                             || gradeSpinner.getSelectedItem().toString().equals("Select")
                             || courseButton.getText().toString().equals("Select"))) {
-                        String id = courseButton.getText().toString() + String.valueOf(courseButton.getId());
+                        //String id = courseButton.getText().toString() + String.valueOf(courseButton.getId());
+                        String id = String.valueOf(courseButton.getId());
                         innerCalculator.setGrades("Select", 1, id);
                         innerCalculator.calculateGPA();
                         gpaTextView.setText(String.format("%.2f",innerCalculator.getGpa()));
                     }
                     LinearLayout coursesLayout = (LinearLayout) view.getParent().getParent();
                     LinearLayout gradeLayout = (LinearLayout) view.getParent();
-                    coursesLayout.removeView(gradeLayout);
+                    gradeLayout.animate().translationXBy(coursesLayout.getWidth()).
+                            setDuration((long)(coursesLayout.getWidth()*1.2));
+                    new Handler().postDelayed(new AnimationRunnable(coursesLayout, gradeLayout),
+                            (long)(coursesLayout.getWidth()*1.2));
                 }
             });
+            gradeLayout.setTranslationX(-coursesLayout.getWidth());
+            gradeLayout.animate().translationXBy(coursesLayout.getWidth()).setDuration((long)(coursesLayout.getWidth()*1.2));
             coursesLayout.addView(gradeLayout);
             _id++;
         }
     };
 
-    /*public void animate(ViewGroup layout, boolean animateOut) {
-        Animator animator;
-        Animation slide_in;
-        Animation slide_out;
-        if(animateOut) {
-            slide_out = AnimationUtils.loadAnimation(getActivity(), R.anim.sliding_out);
-            layout.startAnimation(slide_out);
+    private class AnimationRunnable implements Runnable {
+        private ViewGroup coursesLayout;
+        private LinearLayout gradeLayout;
+
+        public AnimationRunnable(ViewGroup coursesLayout, LinearLayout gradeLayout) {
+            this.coursesLayout = coursesLayout;
+            this.gradeLayout = gradeLayout;
         }
-        else {
-            slide_in = AnimationUtils.loadAnimation(getActivity(), R.anim.sliding_in);
-            layout.startAnimation(slide_in);
+
+        @Override
+        public void run() {
+            this.coursesLayout.removeView(this.gradeLayout);
         }
-    }*/
+    }
 
     public void getSelectedGrades() {
         for (int i = 0; i < switchStates.length; i++) {
