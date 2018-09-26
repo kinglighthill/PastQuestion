@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -114,9 +115,15 @@ public class GPCalcSettingsActivity extends AppCompatActivity {
         final String grade = "Grade";
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_view, null, false);
         LinearLayout linearLayout = (LinearLayout) rootView.getParent().getParent().getParent();
-        final EditText editText = dialogView.findViewById(R.id.dialog_view_editText);
-        editText.setHint("Value");
-        editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        EditText editText = dialogView.findViewById(R.id.dialog_view_editText);
+        editText.setVisibility(View.GONE);
+        final Spinner spinner = dialogView.findViewById(R.id.dialog_view_spinner);
+        spinner.setVisibility(View.VISIBLE);
+        final TextView valueTV = ((LinearLayout) rootView.getParent().getParent()).findViewById(R.id.value);
+        int position = ((int) Double.parseDouble(valueTV.getText().toString()) - 10 ) * (-1);
+        spinner.setSelection(position);
+//        spinner.setHint("Value");
+//        spinner.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         TextView textView = linearLayout.findViewById(R.id.grade);
         final String grade2 = textView.getText().toString();
         Button positiveButton = dialogView.findViewById(R.id.dialog_view_positiveButton);
@@ -124,27 +131,28 @@ public class GPCalcSettingsActivity extends AppCompatActivity {
         positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!editText.getText().toString().equals("")) {
-                    TextView textView1 = ((LinearLayout) rootView.getParent().getParent()).findViewById(R.id.value);
-                    textView1.setText(editText.getText().toString());
+                if (spinner.getSelectedItem() != null) {
+//                    TextView valueTV = ((LinearLayout) rootView.getParent().getParent()).findViewById(R.id.value);
+                    String value = spinner.getSelectedItem().toString();
+                    valueTV.setText(value);
                     switch (grade2) {
                         case "A" :
-                            sharedPreferences.edit().putString("edit1",editText.getText().toString()).apply();
+                            sharedPreferences.edit().putString("edit1",value).apply();
                             break;
                         case "B" :
-                            sharedPreferences.edit().putString("edit2",editText.getText().toString()).apply();
+                            sharedPreferences.edit().putString("edit2",value).apply();
                             break;
                         case "C" :
-                            sharedPreferences.edit().putString("edit3",editText.getText().toString()).apply();
+                            sharedPreferences.edit().putString("edit3",value).apply();
                             break;
                         case "D" :
-                            sharedPreferences.edit().putString("edit4",editText.getText().toString()).apply();
+                            sharedPreferences.edit().putString("edit4",value).apply();
                             break;
                         case "E" :
-                            sharedPreferences.edit().putString("edit5",editText.getText().toString()).apply();
+                            sharedPreferences.edit().putString("edit5",value).apply();
                             break;
                         case "F" :
-                            sharedPreferences.edit().putString("edit6",editText.getText().toString()).apply();
+                            sharedPreferences.edit().putString("edit6",value).apply();
                             break;
                     }
                     if(!isCreditChanged) {
